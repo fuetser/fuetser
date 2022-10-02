@@ -1,7 +1,8 @@
 from string import ascii_lowercase as lower
 
 
-table = [[lower[(lower.index(char) + shift) % 26] for char in lower] for shift in range(26)]
+table = [[lower[(lower.index(char) + shift) % 26]
+          for char in lower] for shift in range(26)]
 
 
 def encrypt_vigenere(plaintext: str, keyword: str, encode: bool = True) -> str:
