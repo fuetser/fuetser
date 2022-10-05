@@ -1,22 +1,16 @@
-from string import ascii_lowercase as lower
-
-table = [[lower[(lower.index(char) + shift) % 26] for char in lower] for shift in range(26)]
+from caesar import encrypt_caesar, decrypt_caesar
 
 
 def encrypt_vigenere(plaintext: str, keyword: str, encode: bool = True) -> str:
     ciphertext = []
     for index, char in enumerate(plaintext.lower()):
-        if char.isalpha():
-            keyword_char = keyword[index % len(keyword)].lower()
-            keyword_char_index = lower.index(keyword_char)
-            if encode:
-                char = table[keyword_char_index][lower.index(char)]
-            else:
-                table_char_index = table[keyword_char_index].index(char)
-                char = lower[table_char_index]
-            if plaintext[index].isupper():
-                char = char.upper()
-        ciphertext.append(char)
+        shift = ord(keyword[index % len(keyword)].lower()) - 97
+        if encode:
+            ciphertext.append(encrypt_caesar(char, shift))
+        else:
+            ciphertext.append(decrypt_caesar(char, shift))
+        if plaintext[index].isupper():
+            ciphertext[-1] = ciphertext[-1].upper()
     return "".join(ciphertext)
 
 
