@@ -35,8 +35,7 @@ def display(grid: tp.List[tp.List[str]]) -> None:
 
 
 def group(values: tp.List[T], n: int) -> tp.List[tp.List[T]]:
-    """
-    Сгруппировать значения values в список, состоящий из списков по n элементов"""
+    """Сгруппировать значения values в список, состоящий из списков по n элементов"""
     res = []
     tmp = []
     for value in values:
@@ -85,7 +84,7 @@ def find_possible_values(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -
 
 
 def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
-    """ Решение пазла, заданного в grid """
+    """Решение пазла, заданного в grid"""
     pos = find_empty_positions(grid)
     if not pos:
         return grid
@@ -98,7 +97,7 @@ def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
 
 
 def check_solution(grid: tp.List[tp.List[str]]) -> bool:
-    """ Если решение solution верно, то вернуть True, в противном случае False """
+    """Если решение solution верно, то вернуть True, в противном случае False"""
     length = len(grid)
     flag1 = True
     flag2 = True
