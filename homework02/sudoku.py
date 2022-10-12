@@ -6,7 +6,7 @@ T = tp.TypeVar("T")
 
 
 def read_sudoku(path: tp.Union[str, pathlib.Path]) -> tp.List[tp.List[str]]:
-    """ Прочитать Судоку из указанного файла"""
+    """Прочитать Судоку из указанного файла"""
     path = pathlib.Path(path)
     with path.open() as f:
         puzzle = f.read()
@@ -111,27 +111,7 @@ def check_solution(grid: tp.List[tp.List[str]]) -> bool:
 
 
 def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
-    """Генерация судоку заполненного на N элементов
-
-    >>> grid = generate_sudoku(40)
-    >>> sum(1 for row in grid for e in row if e == '.')
-    41
-    >>> solution = solve(grid)
-    >>> check_solution(solution)
-    True
-    >>> grid = generate_sudoku(1000)
-    >>> sum(1 for row in grid for e in row if e == '.')
-    0
-    >>> solution = solve(grid)
-    >>> check_solution(solution)
-    True
-    >>> grid = generate_sudoku(0)
-    >>> sum(1 for row in grid for e in row if e == '.')
-    81
-    >>> solution = solve(grid)
-    >>> check_solution(solution)
-    True
-    """
+    """Генерация судоку заполненного на N элементов"""
     grid = [["."] * 9 for _ in range(9)]
     solve(grid)
     for _ in range(81 - N):
