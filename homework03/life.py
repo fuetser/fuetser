@@ -53,8 +53,7 @@ class GameOfLife(GameOfLifeProto):
         return bool(self.curr_generation[row][col])
 
     def switch_cell_status(self, row: int, col: int) -> None:
-        self.curr_generation[row][col] = (
-            self.curr_generation[row][col] + 1) % 2
+        self.curr_generation[row][col] = (self.curr_generation[row][col] + 1) % 2
 
     @property
     def is_max_generations_exceeded(self) -> bool:

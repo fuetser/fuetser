@@ -12,7 +12,7 @@ class GUI(UI):
         self.border_width = 1
         self.screen_size = (
             self.life.cols * cell_size + self.border_width,
-            self.life.rows * cell_size + self.border_width
+            self.life.rows * cell_size + self.border_width,
         )
         self.display = pygame.display.set_mode(self.screen_size)
         self.clock = pygame.time.Clock()
@@ -22,21 +22,37 @@ class GUI(UI):
     def draw_lines(self, win) -> None:
         # vertical
         for col in range(self.life.cols + 1):
-            pygame.draw.line(win, "black", (col * self.cell_size, 0),
-                             (col * self.cell_size, self.screen_size[1]), self.border_width)
+            pygame.draw.line(
+                win,
+                "black",
+                (col * self.cell_size, 0),
+                (col * self.cell_size, self.screen_size[1]),
+                self.border_width,
+            )
         # horizontal
         for row in range(self.life.rows + 1):
-            pygame.draw.line(win, "black", (0, row * self.cell_size),
-                             (self.screen_size[0], row * self.cell_size), self.border_width)
+            pygame.draw.line(
+                win,
+                "black",
+                (0, row * self.cell_size),
+                (self.screen_size[0], row * self.cell_size),
+                self.border_width,
+            )
 
     def draw_grid(self, win) -> None:
         for row in range(self.life.rows):
             for col in range(self.life.cols):
                 if self.life.is_cell_alive(row, col):
-                    pygame.draw.rect(win, "green", (col * self.cell_size,
-                                                    row * self.cell_size,
-                                                    self.cell_size,
-                                                    self.cell_size))
+                    pygame.draw.rect(
+                        win,
+                        "green",
+                        (
+                            col * self.cell_size,
+                            row * self.cell_size,
+                            self.cell_size,
+                            self.cell_size
+                        ),
+                    )
 
     def process_click(self, pos: tuple[int, int]) -> None:
         col = pos[0] // self.cell_size
@@ -71,7 +87,7 @@ class GUI(UI):
             self.clock.tick(self.speed)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     pygame.init()
     life = GameOfLife((50, 50), max_generations=50)
     gui = GUI(life)

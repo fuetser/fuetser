@@ -12,7 +12,6 @@ class Console(UI):
         self.from_cmd_args()
 
     def draw(self, screen) -> None:
-        """ Отобразить состояние клеток. """
         screen.addstr(f"+{'-' * self.life.cols}+\n")
         for row in self.life.curr_generation:
             screen.addch("|")
