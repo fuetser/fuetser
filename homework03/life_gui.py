@@ -50,7 +50,7 @@ class GUI(UI):
                             col * self.cell_size,
                             row * self.cell_size,
                             self.cell_size,
-                            self.cell_size
+                            self.cell_size,
                         ),
                     )
 

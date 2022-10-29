@@ -40,7 +40,7 @@ class Console(UI):
             self.life.update(args.rows, args.cols, args.max_generations)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     life = GameOfLife((24, 80), max_generations=50)
     c = Console(life)
     c.run()
