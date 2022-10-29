@@ -129,8 +129,6 @@ def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
 if __name__ == "__main__":
     for fname in ["puzzle1.txt", "puzzle2.txt", "puzzle3.txt"]:
         grid = read_sudoku(fname)
-        print(find_possible_values(grid, (0, 2)))
-        break
         display(grid)
         solution = solve(grid)
         if not solution:

@@ -3,8 +3,8 @@ import random
 import typing as tp
 
 import pygame
-from pygame.locals import *
 from life_proto import GameOfLife as GameOfLifeProto
+from pygame.locals import *
 
 Cell = tp.Tuple[int, int]
 Cells = tp.List[int]
