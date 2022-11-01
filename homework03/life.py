@@ -40,11 +40,11 @@ class GameOfLife(GameOfLifeProto):
         self.curr_generation = self.get_next_generation()
         self.generations += 1
 
-    def update(self, rows: int, cols: int, max_gen: int) -> None:
+    def update(self, rows: int, cols: int, max_gen: int = 50, grid: Cells = None) -> None:
         self.rows = rows
         self.cols = cols
         self.max_generation = max_gen
-        self.curr_generation = self.create_grid(randomize=True)
+        self.curr_generation = grid if grid else self.create_grid(randomize=True)
 
     def is_cell_alive(self, row: int, col: int) -> bool:
         return bool(self.curr_generation[row][col])
@@ -72,7 +72,9 @@ class GameOfLife(GameOfLifeProto):
         Прочитать состояние клеток из указанного файла.
         """
         with open(filename, encoding="u8") as fi:
-            self.current_generation = [list(map(int, line)) for line in fi]
+            grid = [list(map(int, line)) for line in fi]
+        life = GameOfLife((10, 10))
+        life.update(len(grid), len(grid[0]), grid=grid)
 
     def save(self, filename: pathlib.Path) -> None:
         """
