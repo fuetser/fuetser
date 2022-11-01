@@ -27,7 +27,7 @@ class GameOfLife:
         self.cols = self.width // self.cell_size
 
         self.speed = speed
-        self.grid = [[]]
+        self.grid: list[list[int]] = [[]]
 
     def draw_lines(self) -> None:
         for x in range(0, self.width, self.cell_size):
@@ -56,8 +56,7 @@ class GameOfLife:
             return [[0 for _ in range(self.cols)] for _ in range(self.rows)]
         return [[r.randint(0, 1) for _ in range(self.cols)] for _ in range(self.rows)]
 
-    def get_neighbours(self, cell: Cell, grid: Cells = None) -> Cells:
-        grid = grid or self.grid
+    def get_neighbours(self, cell: Cell) -> Cells:
         row, col = cell
         neighbours = []
         for dx in range(-1, 2):
@@ -66,11 +65,11 @@ class GameOfLife:
                 new_col = col + dy
                 if 0 <= new_row < self.rows and 0 <= new_col < self.cols:
                     if new_row != row or new_col != col:
-                        neighbours.append(grid[new_row][new_col])
+                        neighbours.append(self.grid[new_row][new_col])
         return neighbours
 
-    def get_next_generation(self, grid: Cells = None) -> Grid:
-        new_grid = deepcopy(grid or self.grid)
+    def get_next_generation(self) -> Grid:
+        new_grid = deepcopy(self.grid)
         for row in range(self.rows):
             for col in range(self.cols):
                 neighbours_count = sum(self.get_neighbours((row, col)))

@@ -1,4 +1,5 @@
 import pygame
+
 from life import GameOfLife
 from ui import UI
 

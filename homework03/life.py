@@ -1,19 +1,19 @@
 import pathlib
+import random as r
 import typing as tp
-
-from life_proto import GameOfLife as GameOfLifeProto
+from copy import deepcopy
 
 Cell = tp.Tuple[int, int]
 Cells = tp.List[int]
 Grid = tp.List[Cells]
 
 
-class GameOfLife(GameOfLifeProto):
+class GameOfLife:
     def __init__(
         self,
         size: tp.Tuple[int, int],
         randomize: bool = True,
-        max_generations: tp.Optional[float] = float("inf"),
+        max_generations: float = float("inf"),
     ) -> None:
         # Размер клеточного поля
         self.rows, self.cols = size
@@ -26,11 +26,33 @@ class GameOfLife(GameOfLifeProto):
         # Текущее число поколений
         self.generations = 1
 
+    def create_grid(self, randomize: bool = False) -> Grid:
+        if not randomize:
+            return [[0 for _ in range(self.cols)] for _ in range(self.rows)]
+        return [[r.randint(0, 1) for _ in range(self.cols)] for _ in range(self.rows)]
+
     def get_neighbours(self, cell: Cell) -> Cells:
-        return super().get_neighbours(cell, self.curr_generation)
+        row, col = cell
+        neighbours = []
+        for dx in range(-1, 2):
+            for dy in range(-1, 2):
+                new_row = row + dx
+                new_col = col + dy
+                if 0 <= new_row < self.rows and 0 <= new_col < self.cols:
+                    if new_row != row or new_col != col:
+                        neighbours.append(self.curr_generation[new_row][new_col])
+        return neighbours
 
     def get_next_generation(self) -> Grid:
-        return super().get_next_generation(self.curr_generation)
+        new_grid = deepcopy(self.curr_generation)
+        for row in range(self.rows):
+            for col in range(self.cols):
+                neighbours_count = sum(self.get_neighbours((row, col)))
+                if neighbours_count == 3:
+                    new_grid[row][col] = 1
+                elif neighbours_count != 2:
+                    new_grid[row][col] = 0
+        return new_grid
 
     def step(self) -> None:
         """
@@ -40,7 +62,7 @@ class GameOfLife(GameOfLifeProto):
         self.curr_generation = self.get_next_generation()
         self.generations += 1
 
-    def update(self, rows: int, cols: int, max_gen: int = 50, grid: Cells = None) -> None:
+    def update(self, rows: int, cols: int, max_gen: int = 50, grid=None) -> None:
         self.rows = rows
         self.cols = cols
         self.max_generation = max_gen
@@ -75,11 +97,12 @@ class GameOfLife(GameOfLifeProto):
             grid = [list(map(int, line)) for line in fi]
         life = GameOfLife((10, 10))
         life.update(len(grid), len(grid[0]), grid=grid)
+        return life
 
     def save(self, filename: pathlib.Path) -> None:
         """
         Сохранить текущее состояние клеток в указанный файл.
         """
         with open(filename, "w", encoding="u8") as fo:
-            for row in self.current_generation:
+            for row in self.curr_generation:
                 print(*row, sep="", file=fo)
