@@ -3,7 +3,6 @@ import typing as tp
 from copy import deepcopy
 
 import pygame
-from pygame.locals import *
 
 Cell = tp.Tuple[int, int]
 Cells = tp.List[int]
@@ -28,6 +27,7 @@ class GameOfLife:
         self.cols = self.width // self.cell_size
 
         self.speed = speed
+        self.grid = [[]]
 
     def draw_lines(self) -> None:
         for x in range(0, self.width, self.cell_size):
@@ -42,12 +42,10 @@ class GameOfLife:
         running = True
         while running:
             for event in pygame.event.get():
-                if event.type == QUIT:
+                if event.type == pygame.QUIT:
                     running = False
 
             self.screen.fill((255, 255, 255))
-            self.draw_grid()
-            self.draw_lines()
 
             pygame.display.flip()
             clock.tick(self.speed)
