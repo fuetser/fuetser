@@ -178,7 +178,6 @@ class UpdateIndexTestCase(TestCase):
         index = gitdir / "index"
         quote = pathlib.Path("quote.txt")
         self.fs.create_file(quote, contents="that's what she said")
-
         self.assertFalse(index.exists())
         update_index(gitdir, [quote])
         self.assertTrue(index.exists())
