@@ -45,7 +45,9 @@ class GitIndexEntry(tp.NamedTuple):
     def unpack(data: bytes) -> "GitIndexEntry":
         filename_len = len(data[62:]) - 3
         values = struct.unpack(f"!LLLLLLLLLL20sh{filename_len}sxxx", data)
-        return GitIndexEntry(*values[:-1], "".join([chr(b) for b in values[-1]]))
+        new_values = list(values)
+        new_values[-1] = "".join([chr(b) for b in values[-1]])
+        return GitIndexEntry(*new_values)
 
 
 def read_index(gitdir: pathlib.Path) -> tp.List[GitIndexEntry]:
