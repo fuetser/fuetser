@@ -96,7 +96,7 @@ def update_index(gitdir: pathlib.Path, paths: tp.List[pathlib.Path], write: bool
     if write:
         files = set(p.name for p in gitdir.parent.iterdir())
         for path in paths:
-            if "\\" in str(path):
+            if "/" in str(path):
                 entries.append(create_tree(path.parent, entries))
         entries.append(
             create_tree(
@@ -119,8 +119,6 @@ def form_tree(index: tp.List[GitIndexEntry], prefix: str = "") -> bytes:
 def create_tree(path: pathlib.Path, entries: list[GitIndexEntry]) -> GitIndexEntry:
     entries = [e for e in entries if e.name.startswith(path.name)]
     hash_ = hash_object(form_tree(entries, path.name + "/"), "tree", True)
-    # print()
-    # print(form_tree(entries, path.name + "/"))
     return create_entry(path, hash_, 16384)
 
 
