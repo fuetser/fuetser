@@ -9,19 +9,6 @@ from vkapi import config, session
 from vkapi.exceptions import APIError
 
 
-def get_posts_2500(
-    owner_id: str = "",
-    domain: str = "",
-    offset: int = 0,
-    count: int = 10,
-    max_count: int = 2500,
-    filter: str = "owner",
-    extended: int = 0,
-    fields: tp.Optional[tp.List[str]] = None,
-) -> tp.Dict[str, tp.Any]:
-    pass
-
-
 def get_wall_execute(
     owner_id: str = "",
     domain: str = "",
