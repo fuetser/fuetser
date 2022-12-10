@@ -19,4 +19,28 @@ class News(Base):
     points = Column(Integer)
     label = Column(String)
 
+    def add_many(records):
+        s = session()
+        for record in records:
+            if s.query(News).filter(
+                News.title == record["title"],
+                News.author == record["author"],
+            ).first() is None:
+                s.add(News(**record))
+        s.commit()
+
+    def get(count=30):
+        s = session()
+        return s.query(News).filter(News.label == None).limit(count).all()
+
+    def get_labeled():
+        s = session()
+        return s.query(News).filter(News.label != None).all()
+
+    def add_label(news_id, label):
+        s = session()
+        record = s.query(News).get(news_id)
+        record.label = label
+        s.commit()
+
 Base.metadata.create_all(bind=engine)
