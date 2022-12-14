@@ -1,10 +1,8 @@
-from bottle import (
-    route, run, template, request, redirect
-)
+from bottle import redirect, request, route, run, template
 
-from scraputils import get_news
-from db import News
 from bayes import NaiveBayesClassifier
+from db import News
+from scraputils import get_news
 
 
 @route("/")
@@ -15,7 +13,7 @@ def index():
 @route("/news")
 def news_list():
     rows = News.get()
-    return template('news_template', rows=rows)
+    return template("news_template", rows=rows)
 
 
 @route("/add_label/")

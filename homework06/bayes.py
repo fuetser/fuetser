@@ -1,6 +1,6 @@
+import string
 from collections import defaultdict
 from math import log
-import string
 
 
 def clean(s):
@@ -9,12 +9,11 @@ def clean(s):
 
 
 class NaiveBayesClassifier:
-
     def __init__(self, alpha):
         self.alpha = alpha
 
     def fit(self, X, y):
-        """ Fit Naive Bayes classifier according to X, y. """
+        """Fit Naive Bayes classifier according to X, y."""
         self.total = defaultdict(int)
         self.good = defaultdict(int)
         self.maybe = defaultdict(int)
@@ -31,22 +30,28 @@ class NaiveBayesClassifier:
                     self.never[word] += 1
 
     def predict(self, X):
-        """ Perform classification on an array of test vectors X. """
+        """Perform classification on an array of test vectors X."""
         res = []
         for s in X:
             values = {"good": log(0.33), "maybe": log(0.33), "never": log(0.33)}
             for word in s.split():
-                values["good"] += log((self.good[word] + self.alpha) / (
-                    self.total[word] + self.alpha * len(self.total)))
-                values["maybe"] += log((self.maybe[word] + self.alpha) / (
-                    self.total[word] + self.alpha * len(self.total)))
-                values["never"] += log((self.never[word] + self.alpha) / (
-                    self.total[word] + self.alpha * len(self.total)))
+                values["good"] += log(
+                    (self.good[word] + self.alpha)
+                    / (self.total[word] + self.alpha * len(self.total))
+                )
+                values["maybe"] += log(
+                    (self.maybe[word] + self.alpha)
+                    / (self.total[word] + self.alpha * len(self.total))
+                )
+                values["never"] += log(
+                    (self.never[word] + self.alpha)
+                    / (self.total[word] + self.alpha * len(self.total))
+                )
             res.append(max(values, key=values.get))
         return res
 
     def score(self, X_test, y_test):
-        """ Returns the mean accuracy on the given test data and labels. """
+        """Returns the mean accuracy on the given test data and labels."""
         accurate = 0
         predictions = self.predict(X_test)
         for i in range(len(X_test)):
