@@ -22,10 +22,29 @@ class Session:
         max_retries: int = 3,
         backoff_factor: float = 0.3,
     ) -> None:
-        pass
+        self.base_url = base_url
+        self.timeout = timeout
+        self.max_retries = max_retries
+        self.backoff_factor = backoff_factor
+        self.session = requests.Session()
+        self.init_adapter()
+
+    def init_adapter(self) -> None:
+        adapter = HTTPAdapter(
+            max_retries=Retry(
+                total=self.max_retries,
+                backoff_factor=self.backoff_factor,
+                status_forcelist=(500, 502, 503, 504),
+            )
+        )
+        for prefix in "http://", "https://":
+            self.session.mount(prefix, adapter)
 
     def get(self, url: str, *args: tp.Any, **kwargs: tp.Any) -> requests.Response:
-        pass
+        resp = self.session.get(f"{self.base_url}{url}", params=kwargs)
+        resp.encoding = "utf-8"
+        return resp
 
     def post(self, url: str, *args: tp.Any, **kwargs: tp.Any) -> requests.Response:
-        pass
+        resp = self.session.post(f"{self.base_url}{url}", data=kwargs)
+        return resp

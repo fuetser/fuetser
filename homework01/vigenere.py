@@ -1,30 +1,18 @@
-def encrypt_vigenere(plaintext: str, keyword: str) -> str:
-    """
-    Encrypts plaintext using a Vigenere cipher.
+from caesar import decrypt_caesar, encrypt_caesar
 
-    >>> encrypt_vigenere("PYTHON", "A")
-    'PYTHON'
-    >>> encrypt_vigenere("python", "a")
-    'python'
-    >>> encrypt_vigenere("ATTACKATDAWN", "LEMON")
-    'LXFOPVEFRNHR'
-    """
-    ciphertext = ""
-    # PUT YOUR CODE HERE
-    return ciphertext
+
+def encrypt_vigenere(plaintext: str, keyword: str, encode: bool = True) -> str:
+    ciphertext = []
+    for index, char in enumerate(plaintext.lower()):
+        shift = ord(keyword[index % len(keyword)].lower()) - 97
+        if encode:
+            ciphertext.append(encrypt_caesar(char, shift))
+        else:
+            ciphertext.append(decrypt_caesar(char, shift))
+        if plaintext[index].isupper():
+            ciphertext[-1] = ciphertext[-1].upper()
+    return "".join(ciphertext)
 
 
 def decrypt_vigenere(ciphertext: str, keyword: str) -> str:
-    """
-    Decrypts a ciphertext using a Vigenere cipher.
-
-    >>> decrypt_vigenere("PYTHON", "A")
-    'PYTHON'
-    >>> decrypt_vigenere("python", "a")
-    'python'
-    >>> decrypt_vigenere("LXFOPVEFRNHR", "LEMON")
-    'ATTACKATDAWN'
-    """
-    plaintext = ""
-    # PUT YOUR CODE HERE
-    return plaintext
+    return encrypt_vigenere(ciphertext, keyword, encode=False)
